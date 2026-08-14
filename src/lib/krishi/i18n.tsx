@@ -1,0 +1,133 @@
+import { createContext, useContext, useState, type ReactNode } from "react";
+
+export type Lang = "en" | "hi" | "kn";
+
+const DICT = {
+  en: {
+    appName: "KrishiRakshak",
+    tagline: "Detect Early. Warn Neighbors. Save Harvests.",
+    scanCrop: "Scan My Crop",
+    commandCenter: "District Command Center",
+    uploadLeaf: "Upload a leaf photo",
+    dropHint: "Drag & drop, or tap to use camera",
+    cropType: "Crop type",
+    location: "Location",
+    analyze: "Analyze with AI",
+    analyzing: "AI Analyzing...",
+    result: "Detection result",
+    confidence: "Confidence",
+    severity: "Severity",
+    advisory: "Treatment advisory",
+    organic: "Organic option",
+    chemical: "Chemical option",
+    estCost: "Estimated cost",
+    yieldLoss: "Yield loss if untreated",
+    dealer: "Nearest input dealer",
+    notify: "Notify nearby farmers",
+    notifyHint: "Adds this scan to the shared outbreak map",
+    submit: "Submit to Outbreak Radar",
+    followUp: "We'll check back in 5 days",
+    followUpBody: "A treatment verification reminder will reach you on WhatsApp.",
+    scanAnother: "Scan another leaf",
+    activeOutbreaks: "Active Outbreaks",
+    farmersAlerted: "Farmers Alerted Today",
+    trending: "Trending This Week",
+    valueAtRisk: "Crop Value at Risk",
+    liveFeed: "Live scan feed",
+    predictedSpread: "Predicted Spread (72h)",
+    broadcast: "Broadcast Alert to Zone",
+    affectedFarms: "Affected farms",
+  },
+  hi: {
+    appName: "कृषिरक्षक",
+    tagline: "जल्दी पहचानें। पड़ोसियों को चेताएं। फसल बचाएं।",
+    scanCrop: "मेरी फसल स्कैन करें",
+    commandCenter: "जिला कमांड सेंटर",
+    uploadLeaf: "पत्ते की फोटो अपलोड करें",
+    dropHint: "खींचकर छोड़ें, या कैमरा खोलें",
+    cropType: "फसल",
+    location: "स्थान",
+    analyze: "एआई से जांचें",
+    analyzing: "एआई जांच कर रहा है...",
+    result: "जांच परिणाम",
+    confidence: "विश्वास",
+    severity: "गंभीरता",
+    advisory: "उपचार सलाह",
+    organic: "जैविक उपाय",
+    chemical: "रासायनिक उपाय",
+    estCost: "अनुमानित लागत",
+    yieldLoss: "इलाज न करने पर नुकसान",
+    dealer: "नज़दीकी कृषि केंद्र",
+    notify: "आस-पास के किसानों को सूचित करें",
+    notifyHint: "यह स्कैन साझा नक्शे में जुड़ेगा",
+    submit: "आउटब्रेक रडार पर भेजें",
+    followUp: "हम 5 दिन बाद फिर पूछेंगे",
+    followUpBody: "उपचार जांच की याद व्हाट्सएप पर आएगी।",
+    scanAnother: "दूसरा पत्ता स्कैन करें",
+    activeOutbreaks: "सक्रिय प्रकोप",
+    farmersAlerted: "आज सूचित किसान",
+    trending: "इस सप्ताह के रोग",
+    valueAtRisk: "जोखिम में फसल मूल्य",
+    liveFeed: "लाइव स्कैन फीड",
+    predictedSpread: "संभावित फैलाव (72घं)",
+    broadcast: "क्षेत्र में अलर्ट भेजें",
+    affectedFarms: "प्रभावित खेत",
+  },
+  kn: {
+    appName: "ಕೃಷಿರಕ್ಷಕ",
+    tagline: "ಬೇಗ ಪತ್ತೆ. ನೆರೆಯವರಿಗೆ ಎಚ್ಚರಿಕೆ. ಬೆಳೆ ರಕ್ಷಣೆ.",
+    scanCrop: "ನನ್ನ ಬೆಳೆ ಸ್ಕ್ಯಾನ್",
+    commandCenter: "ಜಿಲ್ಲಾ ಕಮಾಂಡ್ ಸೆಂಟರ್",
+    uploadLeaf: "ಎಲೆಯ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    dropHint: "ಎಳೆದು ಬಿಡಿ ಅಥವಾ ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ",
+    cropType: "ಬೆಳೆ",
+    location: "ಸ್ಥಳ",
+    analyze: "ಎಐ ಮೂಲಕ ಪರಿಶೀಲಿಸಿ",
+    analyzing: "ಎಐ ಪರಿಶೀಲಿಸುತ್ತಿದೆ...",
+    result: "ಪತ್ತೆ ಫಲಿತಾಂಶ",
+    confidence: "ವಿಶ್ವಾಸ",
+    severity: "ತೀವ್ರತೆ",
+    advisory: "ಚಿಕಿತ್ಸಾ ಸಲಹೆ",
+    organic: "ಸಾವಯವ ಪರಿಹಾರ",
+    chemical: "ರಾಸಾಯನಿಕ ಪರಿಹಾರ",
+    estCost: "ಅಂದಾಜು ವೆಚ್ಚ",
+    yieldLoss: "ಚಿಕಿತ್ಸೆ ಇಲ್ಲದಿದ್ದರೆ ನಷ್ಟ",
+    dealer: "ಹತ್ತಿರದ ಕೃಷಿ ಕೇಂದ್ರ",
+    notify: "ಸಮೀಪದ ರೈತರಿಗೆ ತಿಳಿಸಿ",
+    notifyHint: "ಈ ಸ್ಕ್ಯಾನ್ ಹಂಚಿಕೆ ನಕ್ಷೆಗೆ ಸೇರುತ್ತದೆ",
+    submit: "ಔಟ್‌ಬ್ರೇಕ್ ರಾಡಾರ್‌ಗೆ ಕಳುಹಿಸಿ",
+    followUp: "5 ದಿನಗಳ ನಂತರ ಪರಿಶೀಲಿಸುತ್ತೇವೆ",
+    followUpBody: "ಚಿಕಿತ್ಸೆ ಪರಿಶೀಲನೆ ಜ್ಞಾಪನೆ ವಾಟ್ಸಾಪ್‌ನಲ್ಲಿ ಬರುತ್ತದೆ.",
+    scanAnother: "ಇನ್ನೊಂದು ಎಲೆ ಸ್ಕ್ಯಾನ್",
+    activeOutbreaks: "ಸಕ್ರಿಯ ಏಕಾಏಕಿ",
+    farmersAlerted: "ಇಂದು ಎಚ್ಚರಿಸಿದ ರೈತರು",
+    trending: "ಈ ವಾರದ ರೋಗಗಳು",
+    valueAtRisk: "ಅಪಾಯದಲ್ಲಿರುವ ಬೆಳೆ ಮೌಲ್ಯ",
+    liveFeed: "ಲೈವ್ ಸ್ಕ್ಯಾನ್ ಫೀಡ್",
+    predictedSpread: "ಸಂಭಾವ್ಯ ಹರಡುವಿಕೆ (72ಗಂ)",
+    broadcast: "ವಲಯಕ್ಕೆ ಎಚ್ಚರಿಕೆ ಕಳುಹಿಸಿ",
+    affectedFarms: "ಬಾಧಿತ ಜಮೀನುಗಳು",
+  },
+} as const;
+
+export type TKey = keyof (typeof DICT)["en"];
+
+const LangCtx = createContext<{ lang: Lang; setLang: (l: Lang) => void; t: (k: TKey) => string }>({
+  lang: "en",
+  setLang: () => {},
+  t: (k) => DICT.en[k],
+});
+
+export function LangProvider({ children }: { children: ReactNode }) {
+  const [lang, setLang] = useState<Lang>("en");
+  const t = (k: TKey) => DICT[lang][k] ?? DICT.en[k];
+  return <LangCtx.Provider value={{ lang, setLang, t }}>{children}</LangCtx.Provider>;
+}
+
+export const useLang = () => useContext(LangCtx);
+
+export const LANGS: { code: Lang; label: string }[] = [
+  { code: "en", label: "EN" },
+  { code: "hi", label: "हिं" },
+  { code: "kn", label: "ಕನ್" },
+];
