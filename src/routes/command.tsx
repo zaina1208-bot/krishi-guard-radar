@@ -56,9 +56,9 @@ function StatCard({
       }`}
     >
       <div className="min-w-0">
-        <p className="truncate text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>
-        <p className="truncate text-2xl font-extrabold text-foreground">{value}</p>
-        <p className="truncate text-[11px] text-muted-foreground">{sub}</p>
+        <p className="break-words text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">{label}</p>
+        <p className="break-words text-xl font-extrabold text-foreground min-[420px]:text-2xl">{value}</p>
+        <p className="break-words text-[11px] leading-snug text-muted-foreground">{sub}</p>
       </div>
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
         <Icon className="h-5 w-5" />
@@ -105,24 +105,24 @@ function CommandCenter() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
-      <main className="mx-auto max-w-[1600px] px-4 py-5 sm:px-6">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 sm:flex sm:justify-between">
+      <main className="mx-auto w-full max-w-[1600px] px-4 py-4 sm:px-6 sm:py-5">
+        <div className="flex flex-col gap-3 min-[560px]:flex-row min-[560px]:items-center min-[560px]:justify-between">
           <div className="min-w-0">
-            <h1 className="truncate text-2xl font-extrabold tracking-tight text-foreground">
+            <h1 className="text-balance break-words text-xl font-extrabold tracking-tight text-foreground min-[420px]:text-2xl">
               {t("commandCenter")}
             </h1>
-            <p className="truncate text-sm text-muted-foreground">
+            <p className="mt-0.5 break-words text-xs text-muted-foreground sm:text-sm">
               Mandya District, Karnataka · {scans.length} scans on radar
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-2 rounded-full border bg-card px-3 py-2">
-            <Waves className="h-4 w-4 text-sev-high" />
-            <span className="text-xs font-semibold text-foreground">{t("predictedSpread")}</span>
-            <Switch checked={predicted} onCheckedChange={setPredicted} />
+          <div className="flex w-fit max-w-full items-center gap-2 rounded-full border bg-card px-3 py-2">
+            <Waves className="h-4 w-4 shrink-0 text-sev-high" />
+            <span className="truncate text-xs font-semibold text-foreground">{t("predictedSpread")}</span>
+            <Switch checked={predicted} onCheckedChange={setPredicted} className="shrink-0" />
           </div>
         </div>
 
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-4 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 xl:grid-cols-4">
           <StatCard
             icon={Activity}
             label={t("activeOutbreaks")}
@@ -166,8 +166,8 @@ function CommandCenter() {
           />
         </div>
 
-        <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="surface-card relative h-[560px] overflow-hidden p-0 lg:h-[calc(100vh-320px)] lg:min-h-[560px]">
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="surface-card relative h-[420px] overflow-hidden p-0 min-[480px]:h-[520px] lg:h-[calc(100vh-320px)] lg:min-h-[560px]">
             <ClientOnly
               fallback={
                 <div className="grid h-full place-items-center text-muted-foreground">
@@ -186,19 +186,21 @@ function CommandCenter() {
               </Suspense>
             </ClientOnly>
 
-            <div className="pointer-events-none absolute bottom-4 left-4 z-[500] rounded-2xl border bg-card/95 p-3 text-xs shadow-[var(--shadow-soft)]">
+            <div className="pointer-events-none absolute bottom-3 left-3 z-[500] rounded-2xl border bg-card/95 p-2.5 text-[11px] shadow-[var(--shadow-soft)] min-[480px]:bottom-4 min-[480px]:left-4 min-[480px]:p-3 min-[480px]:text-xs">
               <p className="mb-1.5 font-bold text-foreground">Severity</p>
-              {(["Low", "Medium", "High", "Critical"] as Severity[]).map((s) => (
-                <p key={s} className="flex items-center gap-2 text-muted-foreground">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ background: SEVERITY_HEX[s] }} />
-                  {s}
-                </p>
-              ))}
-              {predicted && <p className="mt-2 text-[10px] italic">Dashed ring = 72h predictive model output</p>}
+              <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 min-[480px]:block">
+                {(["Low", "Medium", "High", "Critical"] as Severity[]).map((s) => (
+                  <p key={s} className="flex items-center gap-2 text-muted-foreground">
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: SEVERITY_HEX[s] }} />
+                    {s}
+                  </p>
+                ))}
+              </div>
+              {predicted && <p className="mt-2 max-w-[180px] text-[10px] italic leading-snug">Dashed ring = 72h predictive model output</p>}
             </div>
           </div>
 
-          <aside className="surface-card flex max-h-[560px] flex-col overflow-hidden lg:max-h-[calc(100vh-320px)]">
+          <aside className="surface-card flex max-h-[480px] flex-col overflow-hidden min-[480px]:max-h-[560px] lg:max-h-[calc(100vh-320px)]">
             <div className="flex items-center justify-between border-b px-4 py-3">
               <p className="text-sm font-bold text-foreground">{t("liveFeed")}</p>
               <span className="flex items-center gap-1.5 text-[11px] font-semibold text-sev-low">
@@ -238,7 +240,7 @@ function CommandCenter() {
             </div>
             <div className="border-t p-3">
               <Button
-                className="w-full rounded-xl"
+                className="min-h-[48px] w-full rounded-xl text-sm"
                 onClick={() => broadcast("all active zones", stats.activeCount)}
               >
                 {t("broadcast")}
@@ -247,12 +249,12 @@ function CommandCenter() {
           </aside>
         </div>
 
-        <section className="mt-6 grid items-center gap-8 rounded-3xl bg-secondary/60 p-6 md:grid-cols-2">
-          <div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
+        <section className="mt-6 grid grid-cols-1 items-center gap-6 rounded-3xl bg-secondary/60 p-5 sm:p-6 md:grid-cols-2 md:gap-8">
+          <div className="text-center md:text-left">
+            <h2 className="text-balance text-xl font-extrabold tracking-tight text-foreground min-[420px]:text-2xl">
               What the neighbouring farmer sees
             </h2>
-            <p className="mt-3 text-sm text-muted-foreground">
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground md:mx-0">
               Every broadcast lands as a plain-language message in the local language — distance, disease and the
               single next action, with no app install required.
             </p>

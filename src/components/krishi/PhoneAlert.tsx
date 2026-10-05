@@ -3,8 +3,8 @@ import { ShieldAlert, Check } from "lucide-react";
 
 export function PhoneAlert({ village = "Srirangapatna" }: { village?: string }) {
   return (
-    <div className="mx-auto w-[280px] rounded-[2.5rem] border-8 border-primary-deep bg-primary-deep p-1 shadow-[var(--shadow-lift)]">
-      <div className="relative h-[520px] overflow-hidden rounded-[2rem] bg-[oklch(0.96_0.01_140)] p-3">
+    <div className="mx-auto w-full max-w-[280px] rounded-[2.5rem] border-8 border-primary-deep bg-primary-deep p-1 shadow-[var(--shadow-lift)]">
+      <div className="relative h-[480px] overflow-hidden rounded-[2rem] bg-[oklch(0.96_0.01_140)] p-3 min-[420px]:h-[520px]">
         <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-primary-deep/30" />
         <div className="mb-3 flex items-center gap-2 rounded-xl bg-primary px-3 py-2 text-primary-foreground">
           <ShieldAlert className="h-4 w-4" />

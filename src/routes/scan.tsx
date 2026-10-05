@@ -157,14 +157,14 @@ function ScanPage() {
     <div className="min-h-screen bg-background pb-16">
       <SiteHeader />
 
-      <main className="mx-auto max-w-xl px-4 py-6">
-        <h1 className="text-2xl font-extrabold tracking-tight text-foreground">{t("scanCrop")}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+      <main className="mx-auto w-full max-w-xl px-4 py-5 sm:px-6 sm:py-6">
+        <h1 className="text-balance text-xl font-extrabold tracking-tight text-foreground min-[420px]:text-2xl">{t("scanCrop")}</h1>
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Three taps: photo, crop, analyze. The result also protects the fields around you.
         </p>
 
         {/* Step 1 */}
-        <section className="surface-card mt-5 p-5">
+        <section className="surface-card mt-5 p-4 sm:p-5">
           <p className="text-sm font-semibold text-foreground">{t("uploadLeaf")}</p>
           <div
             onDragOver={(e) => e.preventDefault()}
@@ -230,19 +230,19 @@ function ScanPage() {
 
             <button
               onClick={detectLocation}
-              className="flex items-center justify-between rounded-xl bg-secondary px-3 py-2.5 text-left text-sm"
+              className="flex min-h-[48px] flex-col gap-1 rounded-xl bg-secondary px-3 py-2.5 text-left text-sm min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between"
             >
-              <span className="flex items-center gap-2 font-medium text-secondary-foreground">
-                <MapPin className="h-4 w-4 text-primary" /> {t("location")}: {coords.village}
+              <span className="flex min-w-0 items-center gap-2 font-medium text-secondary-foreground">
+                <MapPin className="h-4 w-4 shrink-0 text-primary" /> <span className="truncate">{t("location")}: {coords.village}</span>
               </span>
-              <span className="text-xs text-muted-foreground">
+              <span className="shrink-0 pl-6 text-xs text-muted-foreground min-[420px]:pl-0">
                 {coords.lat.toFixed(3)}, {coords.lng.toFixed(3)}
               </span>
             </button>
           </div>
 
           <Button
-            className="mt-4 w-full rounded-xl py-6 text-base font-semibold"
+            className="mt-4 min-h-[52px] w-full rounded-xl py-3 text-base font-semibold"
             onClick={analyze}
             disabled={phase === "analyzing"}
           >
@@ -265,18 +265,18 @@ function ScanPage() {
               className="mt-5 space-y-5"
             >
               {/* Step 2 — result */}
-              <section className="surface-card p-5">
-                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+              <section className="surface-card p-4 sm:p-5">
+                <div className="flex flex-col gap-3 min-[420px]:grid min-[420px]:grid-cols-[minmax(0,1fr)_auto] min-[420px]:items-start">
                   <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                       {t("result")}
                     </p>
-                    <h2 className="truncate text-2xl font-extrabold text-foreground">{result.disease.name}</h2>
-                    <p className="text-sm text-muted-foreground">
+                    <h2 className="text-balance break-words text-xl font-extrabold text-foreground min-[420px]:text-2xl">{result.disease.name}</h2>
+                    <p className="mt-0.5 text-sm text-muted-foreground">
                       {crop} · {t("confidence")} {result.confidence}%
                     </p>
                   </div>
-                  <Badge variant="outline" className={`shrink-0 rounded-full px-3 py-1 ${SEV_CLASS[result.severity]}`}>
+                  <Badge variant="outline" className={`w-fit shrink-0 rounded-full px-3 py-1 ${SEV_CLASS[result.severity]}`}>
                     {result.severity}
                   </Badge>
                 </div>
@@ -292,63 +292,63 @@ function ScanPage() {
               </section>
 
               {/* Step 3 — advisory */}
-              <section className="surface-card p-5">
+              <section className="surface-card p-4 sm:p-5">
                 <p className="text-sm font-bold text-foreground">{t("advisory")}</p>
                 <div className="mt-3 space-y-3">
-                  <div className="rounded-2xl bg-secondary/70 p-3">
+                  <div className="rounded-2xl bg-secondary/70 p-3 sm:p-4">
                     <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-primary">
-                      <Leaf className="h-4 w-4" /> {t("organic")}
+                      <Leaf className="h-4 w-4 shrink-0" /> {t("organic")}
                     </p>
-                    <p className="mt-1 text-sm text-foreground/80">{result.disease.organic}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-foreground/80">{result.disease.organic}</p>
                   </div>
-                  <div className="rounded-2xl bg-accent/10 p-3">
+                  <div className="rounded-2xl bg-accent/10 p-3 sm:p-4">
                     <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-accent-foreground">
-                      <FlaskConical className="h-4 w-4" /> {t("chemical")}
+                      <FlaskConical className="h-4 w-4 shrink-0" /> {t("chemical")}
                     </p>
-                    <p className="mt-1 text-sm text-foreground/80">{result.disease.chemical}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-foreground/80">{result.disease.chemical}</p>
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="mt-4 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
                   <div className="rounded-2xl border p-3">
                     <p className="text-xs text-muted-foreground">{t("estCost")}</p>
-                    <p className="text-lg font-extrabold text-foreground">{inr(result.disease.cost)}</p>
+                    <p className="break-words text-lg font-extrabold text-foreground">{inr(result.disease.cost)}</p>
                     <p className="text-[11px] text-muted-foreground">per acre</p>
                   </div>
                   <div className="rounded-2xl border border-sev-critical/30 bg-sev-critical/10 p-3">
                     <p className="text-xs text-muted-foreground">{t("yieldLoss")}</p>
-                    <p className="text-lg font-extrabold text-sev-critical">{inr(result.disease.lossPerAcre)}</p>
+                    <p className="break-words text-lg font-extrabold text-sev-critical">{inr(result.disease.lossPerAcre)}</p>
                     <p className="text-[11px] text-muted-foreground">per acre</p>
                   </div>
                 </div>
 
                 <div className="mt-4 flex items-start gap-3 rounded-2xl border p-3">
                   <Store className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs text-muted-foreground">{t("dealer")}</p>
-                    <p className="truncate text-sm font-semibold text-foreground">{dealer.name}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="break-words text-sm font-semibold text-foreground">{dealer.name}</p>
+                    <p className="break-words text-xs leading-relaxed text-muted-foreground">
                       {dealer.village} · {dealer.km} km · {dealer.phone}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between rounded-2xl bg-primary/5 p-3">
-                  <div className="min-w-0 pr-3">
+                <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-primary/5 p-3">
+                  <div className="min-w-0 flex-1 pr-1">
                     <p className="text-sm font-semibold text-foreground">{t("notify")}</p>
-                    <p className="text-xs text-muted-foreground">{t("notifyHint")}</p>
+                    <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{t("notifyHint")}</p>
                   </div>
-                  <Switch checked={notify} onCheckedChange={setNotify} />
+                  <Switch checked={notify} onCheckedChange={setNotify} className="shrink-0" />
                 </div>
 
-                <Button className="mt-4 w-full rounded-xl py-6 text-base font-semibold" onClick={submitToRadar} disabled={submitted}>
+                <Button className="mt-4 min-h-[52px] w-full rounded-xl py-3 text-[15px] font-semibold sm:text-base" onClick={submitToRadar} disabled={submitted}>
                   {submitted ? (
                     <>
-                      <ShieldCheck className="mr-2 h-5 w-5" /> Added to Outbreak Radar
+                      <ShieldCheck className="mr-2 h-5 w-5 shrink-0" /> <span className="truncate">Added to Outbreak Radar</span>
                     </>
                   ) : (
                     <>
-                      <Radar className="mr-2 h-5 w-5" /> {t("submit")}
+                      <Radar className="mr-2 h-5 w-5 shrink-0" /> <span className="truncate">{t("submit")}</span>
                     </>
                   )}
                 </Button>
@@ -360,14 +360,14 @@ function ScanPage() {
                   <motion.section
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="surface-card border-accent/40 bg-accent/10 p-5"
+                    className="surface-card border-accent/40 bg-accent/10 p-4 sm:p-5"
                   >
-                    <p className="flex items-center gap-2 text-sm font-bold text-accent-foreground">
-                      <CalendarClock className="h-5 w-5" /> {t("followUp")}
+                    <p className="flex items-start gap-2 text-sm font-bold text-accent-foreground">
+                      <CalendarClock className="h-5 w-5 shrink-0" /> <span>{t("followUp")}</span>
                     </p>
-                    <p className="mt-1 text-sm text-foreground/75">{t("followUpBody")}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <Button variant="secondary" className="rounded-full" onClick={() => {
+                    <p className="mt-1 text-sm leading-relaxed text-foreground/75">{t("followUpBody")}</p>
+                    <div className="mt-4 grid grid-cols-1 gap-2 min-[420px]:flex min-[420px]:flex-wrap">
+                      <Button variant="secondary" className="min-h-[48px] w-full rounded-full min-[420px]:w-auto" onClick={() => {
                         setImage(null);
                         setPhase("idle");
                         setResult(null);
@@ -375,7 +375,7 @@ function ScanPage() {
                       }}>
                         {t("scanAnother")}
                       </Button>
-                      <Button asChild variant="outline" className="rounded-full">
+                      <Button asChild variant="outline" className="min-h-[48px] w-full rounded-full min-[420px]:w-auto">
                         <Link to="/command">{t("commandCenter")}</Link>
                       </Button>
                     </div>

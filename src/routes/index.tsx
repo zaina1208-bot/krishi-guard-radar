@@ -74,15 +74,15 @@ function Landing() {
     <div className="min-h-screen bg-background">
       <SiteHeader variant="dark" />
 
-      <section className="hero-gradient relative overflow-hidden px-4 pb-24 pt-16 text-primary-foreground sm:px-8">
-        <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-40 left-10 h-96 w-96 rounded-full bg-primary-glow/25 blur-3xl" />
+      <section className="hero-gradient relative overflow-hidden px-4 pb-16 pt-12 text-primary-foreground sm:px-6 sm:pb-24 sm:pt-16 lg:px-8">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/20 blur-3xl sm:h-96 sm:w-96" />
+        <div className="pointer-events-none absolute -bottom-40 left-10 h-72 w-72 rounded-full bg-primary-glow/25 blur-3xl sm:h-96 sm:w-96" />
 
-        <div className="relative mx-auto max-w-5xl text-center">
+        <div className="relative mx-auto w-full max-w-5xl text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mx-auto mb-5 w-fit rounded-full border border-primary-foreground/25 bg-primary-foreground/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest"
+            className="mx-auto mb-5 w-fit max-w-full rounded-full border border-primary-foreground/25 bg-primary-foreground/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-widest sm:text-xs"
           >
             Mandya District · Live pilot
           </motion.p>
@@ -90,7 +90,7 @@ function Landing() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl"
+            className="text-balance text-3xl font-extrabold leading-[1.08] tracking-tight min-[420px]:text-4xl sm:text-6xl"
           >
             {t("tagline")}
           </motion.h1>
@@ -98,7 +98,7 @@ function Landing() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.22, duration: 0.6 }}
-            className="mx-auto mt-5 max-w-2xl text-base text-primary-foreground/80 sm:text-lg"
+            className="mx-auto mt-5 max-w-2xl text-balance text-sm leading-relaxed text-primary-foreground/80 min-[420px]:text-base sm:text-lg"
           >
             KrishiRakshak turns one farmer's leaf photo into a district-wide early warning. Disease is caught
             where it starts — and the next village hears about it before the spores arrive.
@@ -108,25 +108,25 @@ function Landing() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.34, duration: 0.6 }}
-            className="mt-9 flex flex-wrap items-center justify-center gap-3"
+            className="mt-7 grid grid-cols-1 gap-3 min-[420px]:flex min-[420px]:flex-wrap min-[420px]:items-center min-[420px]:justify-center sm:mt-9"
           >
-            <Button asChild size="lg" variant="secondary" className="rounded-full px-7 text-base font-semibold">
+            <Button asChild size="lg" variant="secondary" className="min-h-[52px] w-full rounded-full px-7 text-base font-semibold min-[420px]:w-auto">
               <Link to="/scan">
-                <ScanLine className="mr-1 h-5 w-5" /> {t("scanCrop")}
+                <ScanLine className="mr-1 h-5 w-5 shrink-0" /> <span className="truncate">{t("scanCrop")}</span>
               </Link>
             </Button>
             <Button
               asChild
               size="lg"
-              className="rounded-full bg-accent px-7 text-base font-semibold text-accent-foreground hover:bg-accent/90"
+              className="min-h-[52px] w-full rounded-full bg-accent px-7 text-base font-semibold text-accent-foreground hover:bg-accent/90 min-[420px]:w-auto"
             >
               <Link to="/command">
-                <Radar className="mr-1 h-5 w-5" /> {t("commandCenter")}
+                <Radar className="mr-1 h-5 w-5 shrink-0" /> <span className="truncate">{t("commandCenter")}</span>
               </Link>
             </Button>
           </motion.div>
 
-          <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-3 min-[480px]:grid-cols-3 sm:mt-16 sm:gap-4">
             {[
               { icon: Users, value: 12400, suffix: "", label: "farmers protected" },
               { icon: TrendingUp, value: 340, suffix: "", label: "outbreaks contained early" },
@@ -151,8 +151,8 @@ function Landing() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-8">
-        <div className="grid gap-5 md:grid-cols-3">
+      <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
           {FEATURES.map((f, i) => (
             <motion.article
               key={f.title}
@@ -160,35 +160,36 @@ function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="surface-card p-6"
+              className="surface-card p-5 sm:p-6"
             >
               <span className="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-secondary text-primary">
                 <f.icon className="h-5 w-5" />
               </span>
-              <h2 className="text-lg font-bold text-foreground">{f.title}</h2>
+              <h2 className="text-balance text-base font-bold text-foreground sm:text-lg">{f.title}</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
             </motion.article>
           ))}
         </div>
       </section>
 
-      <section className="bg-secondary/60 px-4 py-20 sm:px-8">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
+      <section className="bg-secondary/60 px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-8 sm:gap-12 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="text-center md:text-left"
           >
-            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="text-balance text-2xl font-extrabold tracking-tight text-foreground min-[420px]:text-3xl sm:text-4xl">
               The warning reaches the phone in the pocket.
             </h2>
-            <p className="mt-4 max-w-md text-muted-foreground">
+            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base md:mx-0">
               When density crosses the outbreak threshold in a zone, every registered farmer within 5 km gets a
               plain-language WhatsApp/SMS alert — with the disease, the distance and the next action.
             </p>
-            <Button asChild className="mt-6 rounded-full px-6">
+            <Button asChild className="mt-6 min-h-[48px] w-full rounded-full px-6 min-[420px]:w-auto">
               <Link to="/command">
-                See the command center <ArrowRight className="ml-1 h-4 w-4" />
+                See the command center <ArrowRight className="ml-1 h-4 w-4 shrink-0" />
               </Link>
             </Button>
           </motion.div>
@@ -196,7 +197,7 @@ function Landing() {
         </div>
       </section>
 
-      <footer className="border-t px-4 py-8 text-center text-sm text-muted-foreground sm:px-8">
+      <footer className="border-t px-4 py-8 text-center text-xs leading-relaxed text-muted-foreground sm:px-8 sm:text-sm">
         KrishiRakshak · Outbreak Radar — hackathon demo with simulated detection on seeded district data.
       </footer>
     </div>
