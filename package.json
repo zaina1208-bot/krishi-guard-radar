@@ -88,5 +88,9 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.2.0"
+  },
+  "overrides": {
+    "js-yaml": "4.3.2",
+    "source-map-js": "1.2.2"
   }
 }
